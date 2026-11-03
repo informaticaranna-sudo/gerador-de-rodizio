@@ -5,6 +5,9 @@ Reproduz a planilha "GERADOR DE RODÍZIO AUTOMÁTICO" (v5-a). Tudo roda no apare
 ## Testar agora
 Abra `index.html` no navegador do celular ou do computador.
 
+## Instalar como app
+O app tem o botão **⬇ Instalar app** no topo (aparece no Chrome/Edge quando a instalação está disponível; no iPhone, ele mostra como adicionar à Tela de Início).
+
 ## Instalar no Android como app
 1. Hospede esta pasta em qualquer site HTTPS gratuito (GitHub Pages, Netlify, Cloudflare Pages).
 2. Abra o endereço no Chrome do Android > menu ⋮ > **Instalar app**.
