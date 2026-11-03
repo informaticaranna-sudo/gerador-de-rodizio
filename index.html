@@ -23,6 +23,10 @@ header h1{padding-right:84px}
 #sair{position:absolute;right:14px;top:14px;z-index:2;padding:6px 14px;font-size:14px;background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.85)}
 #fim{position:fixed;inset:0;z-index:20;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px}
 #fim[hidden]{display:none}
+#dlgimg{position:fixed;inset:0;z-index:30;background:rgba(40,20,35,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+#dlgimg .box{background:#fff;border-radius:20px;padding:18px;max-width:420px;width:100%;max-height:90vh;overflow:auto;display:flex;flex-direction:column;gap:10px}
+#dlgimg h2{margin:0}#dlgimg .ms{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}#dlgimg .ms button{padding:9px 2px;font-size:14px}
+@media print{#dlgimg{display:none!important}}
 #fim img{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:38% 28%;border:3px solid var(--h1)}
 #fim h2{font-size:24px;margin:6px 0 0}#fim h2::before{content:""}
 #fim p{margin:0;color:var(--mu)}
@@ -287,59 +291,70 @@ function csv(d,g){const c=colunas(d,g),q=x=>`"${String(x??'').replace(/"/g,'""')
  return '\ufeff'+r.map(x=>x.map(q).join(';')).join('\r\n')}
 function baixar(d,g){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv(d,g)],{type:'text/csv;charset=utf-8'}));a.download=`rodizio-${d.ano}.csv`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 function baixarArq(f){const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
-async function imagens(d,g){
- const c=colunas(d,g),W=1200,P=36,GAP=24,CW=(W-2*P-GAP)/2,RH=36,MH=54,TH=34,F='system-ui,-apple-system,"Segoe UI",Roboto,sans-serif',SR='italic 700 28px "Palatino Linotype","Book Antiqua",Georgia,serif';
- const ms=g.meses.filter(M=>M.linhas.length),pgs=[];for(let i=0;i<ms.length;i+=4)pgs.push(ms.slice(i,i+4));
+async function imagem(d,g,ms,nk,W,exOn){
+ const c=colunas(d,g),P=36,GAP=24,CW=(W-2*P-(nk-1)*GAP)/nk,RH=36,MH=54,TH=34,F='system-ui,-apple-system,"Segoe UI",Roboto,sans-serif',SR='italic 700 28px "Palatino Linotype","Book Antiqua",Georgia,serif';
  const ban=await new Promise(ok=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(BANX)});
+ const bw=Math.min(840,W-2*P),bh=bw*224/1200;
  const fo=todos(d).filter(n=>d.fones[n]).map(n=>pc(n)+': '+d.fones[n]),ba=MESES.map((m,i)=>d.bat[i]?m+': '+pc(d.bat[i]):'').filter(Boolean),ce=d.ceias.trim().split('\n').map(x=>x.trim()).filter(Boolean);
- const ex=[];if(ba.length)ex.push(['Batismos de '+d.ano,ba]);if(ce.length)ex.push(['Santas ceias de '+d.ano,ce]);if(fo.length||d.outros.trim())ex.push(['Telefones',[...fo,...d.outros.split('\n').map(x=>x.trim()).filter(Boolean)]]);
- const hc=M=>MH+TH+M.linhas.length*RH+(d.bat[g.meses.indexOf(M)]?36:0)+6,HEAD=ban?262:150;
+ const ex=[];if(exOn){if(ba.length)ex.push(['Batismos de '+d.ano,ba]);if(ce.length)ex.push(['Santas ceias de '+d.ano,ce]);if(fo.length||d.outros.trim())ex.push(['Telefones',[...fo,...d.outros.split('\n').map(x=>x.trim()).filter(Boolean)]])}
+ const hc=M=>MH+TH+M.linhas.length*RH+(d.bat[g.meses.indexOf(M)]?36:0)+6,HEAD=ban?bh+105:150;
  const exH=ex.reduce((s,[t,l])=>s+64+l.length*30,0);
- const out=[];
- for(let p=0;p<pgs.length;p++){
-  const rows=[];for(let i=0;i<pgs[p].length;i+=2)rows.push(pgs[p].slice(i,i+2));
-  const last=p===pgs.length-1,H=P+HEAD+rows.reduce((s,r)=>s+Math.max(...r.map(hc))+GAP,0)+(last?exH:0)+P;
-  const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
-  const rr=(a,b,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(a,b,w,h,r):x.rect(a,b,w,h)};
-  const fit=(t,mw,px,wt,st='')=>{let s=px;do{x.font=`${st} ${wt} ${s}px ${F}`;s--}while(x.measureText(t).width>mw&&s>12)};
-  x.fillStyle='#fff';x.fillRect(0,0,W,H);x.textBaseline='middle';
-  let y=P;if(ban){x.drawImage(ban,(W-840)/2,y,840,157);y+=165}
-  x.textAlign='center';x.fillStyle='#a22e5f';x.font=SR;x.fillText(d.local||'Rodízio de organistas',W/2,y+22);
-  x.fillStyle='#1f1220';x.font=`22px ${F}`;x.fillText(['Rodízio de organistas · '+d.ano,c.meia?'com meia-hora':'',c.rjm?'com jovens e menores':''].filter(Boolean).join(' · ')+(pgs.length>1?`  (${p+1}/${pgs.length})`:''),W/2,y+62);
-  y=P+HEAD;
-  for(const r of rows){const rh=Math.max(...r.map(hc));
-   r.forEach((M,ci)=>{const X=P+ci*(CW+GAP),Y=y,h=hc(M);
-    x.save();rr(X,Y,CW,h,18);x.fillStyle='#fff';x.fill();x.clip();
-    const gr=x.createLinearGradient(X,0,X+CW,0);gr.addColorStop(0,'#c94a7e');gr.addColorStop(1,'#9a76d0');x.fillStyle=gr;x.fillRect(X,Y,CW,MH);
-    x.textAlign='left';x.fillStyle='#fff';x.font=SR;x.fillText(M.nome,X+16,Y+MH/2+1);const mw=x.measureText(M.nome).width;x.font=`18px ${F}`;x.fillText('/'+d.ano,X+22+mw,Y+MH/2+3);
-    x.font=`600 16px ${F}`;const tn='início nº '+M.inicio,tw=x.measureText(tn).width+22;x.fillStyle='rgba(255,255,255,.28)';rr(X+CW-tw-12,Y+MH/2-13,tw,26,13);x.fill();x.fillStyle='#fff';x.textAlign='center';x.fillText(tn,X+CW-tw/2-12,Y+MH/2+1);
-    const nc=c.n-2,cw=(CW-52-62)/nc,cols=[X+52+62];for(let k=1;k<nc;k++)cols.push(cols[0]+k*cw);
-    let ty=Y+MH;x.fillStyle='#fbe4ec';x.fillRect(X,ty,CW,TH);x.fillStyle='#a22e5f';x.font=`700 16px ${F}`;x.textAlign='left';
-    x.fillText('Dia',X+10,ty+TH/2+1);x.fillText('Sem',X+52+8,ty+TH/2+1);
-    const hd=[...(c.meia?['Meia-hora']:[]),'Culto',...(c.rjm?['Jovens e menores']:[])];hd.forEach((t,k)=>x.fillText(t,cols[k]+10,ty+TH/2+1));
-    ty+=TH;
-    M.linhas.forEach((l,ri)=>{const ry=ty+ri*RH,cy=ry+RH/2+1;
-     if(l.ens){x.fillStyle='#efe8fb';x.fillRect(X,ry,CW,RH);x.fillStyle='#6a49a8';x.textAlign='left';x.font=`italic 700 19px ${F}`;x.fillText(dd(l.dia),X+10,cy);x.fillText(l.sem,X+60,cy);x.fillText('Ensaio',X+52+62+10,cy)}
-     else{if(ri%2)x.fillStyle='#fdf3f7',x.fillRect(X,ry,CW,RH);
-      x.textAlign='left';x.fillStyle='#5b4256';x.font=`19px ${F}`;x.fillText(dd(l.dia),X+10,cy);
-      x.fillStyle=l.sem==='Dom'?'#6a49a8':'#5b4256';x.font=`${l.sem==='Dom'?700:400} 17px ${F}`;x.fillText(l.sem,X+60,cy);
-      const vs=[...(c.meia?[l.culto&&l.meia]:[]),l.culto,...(c.rjm?[l.rjm]:[])];
-      vs.forEach((v,k)=>{const isC=k===(c.meia?1:0);if(!v){x.fillStyle='#b9a3b2';x.font=`19px ${F}`;x.fillText('–',cols[k]+10,cy);return}
-       x.fillStyle='#1f1220';fit(v,cw-16,19,isC?700:500);x.fillText(v,cols[k]+10,cy)})}
-     x.fillStyle='#e3c6d3';x.fillRect(X,ry+RH-1,CW,1)});
-    const bt=d.bat[g.meses.indexOf(M)];if(bt){x.fillStyle='#5b4256';x.font=`18px ${F}`;x.textAlign='left';x.fillText('Batismo: '+pc(bt),X+12,ty+M.linhas.length*RH+20)}
-    x.restore();x.strokeStyle='#e3c6d3';x.lineWidth=2;rr(X,Y,CW,h,18);x.stroke()});
-   y+=rh+GAP}
-  if(last)for(const [t,l] of ex){const h=52+l.length*30;x.fillStyle='#fff';rr(P,y,W-2*P,h,18);x.fill();x.strokeStyle='#e3c6d3';x.stroke();
-   x.textAlign='left';x.fillStyle='#a22e5f';x.font=SR.replace('28px','24px');x.fillText('✿ '+t,P+18,y+28);x.fillStyle='#1f1220';x.font=`20px ${F}`;l.forEach((s,i)=>x.fillText(s,P+18,y+64+i*30-14+14-14+14));y+=h+12}
-  const bl=await new Promise(ok=>cv.toBlob(ok,'image/png'));out.push(new File([bl],`rodizio-${d.ano}-${p+1}.png`,{type:'image/png'}))}
- return out}
-async function compartilhar(d,g,btn){const t0=btn.textContent;btn.disabled=true;btn.textContent='Gerando imagem…';let fs=[];
- try{fs=await imagens(d,g);
-  if(navigator.canShare&&navigator.canShare({files:fs}))await navigator.share({files:fs,title:'Rodízio de organistas'});
+ const rows=[];for(let i=0;i<ms.length;i+=nk)rows.push(ms.slice(i,i+nk));
+ const H=Math.round(P+HEAD+rows.reduce((s,r)=>s+Math.max(...r.map(hc))+GAP,0)+exH+P);
+ const cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+ const rr=(a,b,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(a,b,w,h,r):x.rect(a,b,w,h)};
+ const fit=(t,mw,px,wt)=>{let s=px;do{x.font=`${wt} ${s}px ${F}`;s--}while(x.measureText(t).width>mw&&s>12)};
+ x.fillStyle='#fff';x.fillRect(0,0,W,H);x.textBaseline='middle';
+ let y=P;if(ban){x.drawImage(ban,(W-bw)/2,y,bw,bh);y+=bh+8}
+ x.textAlign='center';x.fillStyle='#a22e5f';x.font=SR;x.fillText(d.local||'Rodízio de organistas',W/2,y+22);
+ x.fillStyle='#1f1220';x.font=`22px ${F}`;x.fillText(['Rodízio de organistas · '+d.ano,c.meia?'com meia-hora':'',c.rjm?'com jovens e menores':''].filter(Boolean).join(' · '),W/2,y+62);
+ y=P+HEAD;
+ for(const r of rows){const rh=Math.max(...r.map(hc));
+  r.forEach((M,ci)=>{const X=P+ci*(CW+GAP),Y=y,h=hc(M);
+   x.save();rr(X,Y,CW,h,18);x.fillStyle='#fff';x.fill();x.clip();
+   const gr=x.createLinearGradient(X,0,X+CW,0);gr.addColorStop(0,'#c94a7e');gr.addColorStop(1,'#9a76d0');x.fillStyle=gr;x.fillRect(X,Y,CW,MH);
+   x.textAlign='left';x.fillStyle='#fff';x.font=SR;x.fillText(M.nome,X+16,Y+MH/2+1);const mw=x.measureText(M.nome).width;x.font=`18px ${F}`;x.fillText('/'+d.ano,X+22+mw,Y+MH/2+3);
+   x.font=`600 16px ${F}`;const tn='início nº '+M.inicio,tw=x.measureText(tn).width+22;x.fillStyle='rgba(255,255,255,.28)';rr(X+CW-tw-12,Y+MH/2-13,tw,26,13);x.fill();x.fillStyle='#fff';x.textAlign='center';x.fillText(tn,X+CW-tw/2-12,Y+MH/2+1);
+   const nc=c.n-2,cw=(CW-52-62)/nc,cols=[X+52+62];for(let k=1;k<nc;k++)cols.push(cols[0]+k*cw);
+   let ty=Y+MH;x.fillStyle='#fbe4ec';x.fillRect(X,ty,CW,TH);x.fillStyle='#a22e5f';x.font=`700 16px ${F}`;x.textAlign='left';
+   x.fillText('Dia',X+10,ty+TH/2+1);x.fillText('Sem',X+52+8,ty+TH/2+1);
+   const hd=[...(c.meia?['Meia-hora']:[]),'Culto',...(c.rjm?['Jovens e menores']:[])];hd.forEach((t,k)=>{fit(t,cw-12,16,700);x.fillText(t,cols[k]+10,ty+TH/2+1)});
+   ty+=TH;
+   M.linhas.forEach((l,ri)=>{const ry=ty+ri*RH,cy=ry+RH/2+1;
+    if(l.ens){x.fillStyle='#efe8fb';x.fillRect(X,ry,CW,RH);x.fillStyle='#6a49a8';x.textAlign='left';x.font=`italic 700 19px ${F}`;x.fillText(dd(l.dia),X+10,cy);x.fillText(l.sem,X+60,cy);x.fillText('Ensaio',X+52+62+10,cy)}
+    else{if(ri%2)x.fillStyle='#fdf3f7',x.fillRect(X,ry,CW,RH);
+     x.textAlign='left';x.fillStyle='#5b4256';x.font=`19px ${F}`;x.fillText(dd(l.dia),X+10,cy);
+     x.fillStyle=l.sem==='Dom'?'#6a49a8':'#5b4256';x.font=`${l.sem==='Dom'?700:400} 17px ${F}`;x.fillText(l.sem,X+60,cy);
+     const vs=[...(c.meia?[l.culto&&l.meia]:[]),l.culto,...(c.rjm?[l.rjm]:[])];
+     vs.forEach((v,k)=>{const isC=k===(c.meia?1:0);if(!v){x.fillStyle='#b9a3b2';x.font=`19px ${F}`;x.fillText('–',cols[k]+10,cy);return}
+      x.fillStyle='#1f1220';fit(v,cw-16,19,isC?700:500);x.fillText(v,cols[k]+10,cy)})}
+    x.fillStyle='#e3c6d3';x.fillRect(X,ry+RH-1,CW,1)});
+   const bt=d.bat[g.meses.indexOf(M)];if(bt){x.fillStyle='#5b4256';x.font=`18px ${F}`;x.textAlign='left';x.fillText('Batismo: '+pc(bt),X+12,ty+M.linhas.length*RH+20)}
+   x.restore();x.strokeStyle='#e3c6d3';x.lineWidth=2;rr(X,Y,CW,h,18);x.stroke()});
+  y+=rh+GAP}
+ for(const [t,l] of ex){const h=52+l.length*30;x.fillStyle='#fff';rr(P,y,W-2*P,h,18);x.fill();x.strokeStyle='#e3c6d3';x.lineWidth=2;x.stroke();
+  x.textAlign='left';x.fillStyle='#a22e5f';x.font=SR.replace('28px','24px');x.fillText('✿ '+t,P+18,y+28);x.fillStyle='#1f1220';x.font=`20px ${F}`;l.forEach((s,i)=>x.fillText(s,P+18,y+64+i*30));y+=h+12}
+ const bl=await new Promise(ok=>cv.toBlob(ok,'image/jpeg',0.92));
+ const sl=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ return new File([bl],`rodizio-${d.ano}${ms.length===1?'-'+sl(ms[0].nome):''}.jpg`,{type:'image/jpeg'})}
+async function enviarArq(fs){
+ try{if(navigator.canShare&&navigator.canShare({files:fs}))await navigator.share({files:fs,title:'Rodízio de organistas'});
   else fs.forEach((f,i)=>setTimeout(()=>baixarArq(f),i*600))}
- catch(e){if(e.name!=='AbortError'){if(fs.length)fs.forEach((f,i)=>setTimeout(()=>baixarArq(f),i*600));else alert('Não foi possível gerar a imagem.')}}
- finally{btn.disabled=false;btn.textContent=t0}}
+ catch(e){if(e.name!=='AbortError')fs.forEach((f,i)=>setTimeout(()=>baixarArq(f),i*600))}}
+function compartilhar(d,g){
+ const ms=g.meses.filter(M=>M.linhas.length),o=document.createElement('div');o.id='dlgimg';let ocupado=false;
+ o.innerHTML=`<div class="box" role="dialog" aria-label="Compartilhar imagem"><h2>Compartilhar imagem</h2><p class="pt">Escolha o que enviar. Será gerado um arquivo JPEG.</p><button type="button" data-m="all">Página inteira · ano todo</button><div class="ms">${ms.map(M=>`<button type="button" class="sec" data-m="${g.meses.indexOf(M)}">${M.nome}</button>`).join('')}</div><button type="button" class="sec" data-m="x">Cancelar</button><div class="pt" id="dst" style="text-align:center"></div></div>`;
+ o.onclick=async e=>{if(ocupado)return;if(e.target===o){o.remove();return}
+  const b=e.target.closest('button');if(!b)return;const m=b.dataset.m;if(m==='x'){o.remove();return}
+  ocupado=true;$('#dst').textContent='Gerando imagem…';
+  try{const f=m==='all'?await imagem(d,g,ms,3,1500,true):await imagem(d,g,[g.meses[+m]],1,800,false);o.remove();await enviarArq([f])}
+  catch(err){ocupado=false;const s=$('#dst');if(s)s.textContent='Não foi possível gerar a imagem.'}};
+ document.body.appendChild(o)}
+async function mudarAno(v){
+ if(!(v>=2000&&v<=2100)||v===S.ano)return;await grava();
+ const rec=await tx('anos','readonly',s=>s.get(v)),cont=R&&R.proximo&&v===S.ano+1;
+ S=rec?Object.assign(PAD(),rec.dados):Object.assign(PAD(),S,{ano:v,seq:cont?R.proximo:'',seqMeia:cont?R.proxMeia||0:0,seqRJM:cont?R.proxRJM||0:0,mes:1,bat:Array(12).fill(''),ceias:''});
+ preencher();save();rodizio()}
 /* ---- Backup no próprio celular ---- */
 async function fazerBackup(){await grava();
  const anos=(await tx('anos','readonly',s=>s.getAll()))||[],ultimo=await tx('cfg','readonly',s=>s.get('ultimo'));
@@ -374,12 +389,13 @@ function rodizio(){
  let h=avisos().map(x=>`<div class="msg er">${esc(x)}</div>`).join('');
  if(!R){p.innerHTML=h;return}
  const c=colunas(S,R),sub=[c.meia?'com meia-hora':'',c.rjm?'com jovens e menores':''].filter(Boolean).join(' · ');
- h+=`<div class="bar"><button id="b-prt">Imprimir / Baixar PDF</button><button class="sec" id="b-csv">Baixar planilha</button><button class="sec" id="b-shr">Compartilhar imagem</button><button class="sec" id="b-nxt">Próximo ano</button></div>`+
+ h+=`<div class="bar"><select id="rsel" aria-label="Ano" style="width:auto"><option>${S.ano}</option></select><button id="b-prt">Imprimir / Baixar PDF</button><button class="sec" id="b-csv">Baixar planilha</button><button class="sec" id="b-shr">Compartilhar imagem</button><button class="sec" id="b-nxt">Próximo ano</button></div>`+
   titulo(S,sub?' · '+sub:'')+cartoes(S,R)+extrasHtml(S,false)+`<div class="card"><div class="pt">Próximo ano começa na sequência nº <b>${R.proximo??'—'}</b> (o botão “Próximo ano” preenche sozinho).</div></div>`;
  p.innerHTML=pag(h);
  $('#b-prt').onclick=()=>window.print();
  $('#b-csv').onclick=()=>baixar(S,R);
- $('#b-shr').onclick=e=>compartilhar(S,R,e.target);
+ $('#b-shr').onclick=()=>compartilhar(S,R);
+ tx('anos','readonly',s=>s.getAll()).then(rs=>{const y=new Set([S.ano,...(rs||[]).map(r=>r.ano)]);y.add(Math.max(...y)+1);const sel=$('#rsel');if(!sel)return;sel.innerHTML=[...y].sort((a,b)=>b-a).map(v=>`<option value="${v}"${v===S.ano?' selected':''}>${v}</option>`).join('');sel.onchange=e=>mudarAno(+e.target.value)});
  $('#b-nxt').onclick=async()=>{if(R.proximo&&confirm(`Preparar ${S.ano+1}, continuando a sequência (início nº ${R.proximo})?`)){await grava();
   S=Object.assign(PAD(),S,{ano:S.ano+1,mes:1,seq:R.proximo,seqMeia:R.proxMeia||0,seqRJM:R.proxRJM||0,bat:Array(12).fill(''),ceias:''});preencher();save();rodizio()}}}
 /* ---- Relatório (lê do banco de dados) ---- */
@@ -395,7 +411,7 @@ async function relatorio(){
  p.innerHTML=pag(h);
  $('#sel').onchange=e=>{relAno=+e.target.value;relatorio()};
  $('#r-prt').onclick=()=>window.print();
- if(g){$('#r-csv').onclick=()=>baixar(d,g);$('#r-shr').onclick=e=>compartilhar(d,g,e.target)}
+ if(g){$('#r-csv').onclick=()=>baixar(d,g);$('#r-shr').onclick=()=>compartilhar(d,g)}
  $('#r-del').onclick=async()=>{if(!confirm(`Excluir definitivamente o rodízio de ${relAno} do banco de dados?`))return;
   await tx('anos','readwrite',s=>s.delete(relAno));
   if(relAno===S.ano){sujo=false;clearTimeout(tm);S=PAD();preencher()}
