@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light">
+<meta name="author" content="Ranna Azevedo">
 <meta name="theme-color" content="#c94a7e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -21,6 +22,8 @@ header small{opacity:.9;font-size:13px}
 header>h1,header>small{z-index:1}
 header h1{padding-right:84px}
 #sair{position:absolute;right:14px;top:14px;z-index:2;padding:6px 14px;font-size:14px;background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.85)}
+.by{display:block;font-style:italic;opacity:.95}
+footer.by{text-align:center;color:var(--mu);font-size:13px;padding:6px 12px 14px;opacity:1}
 #instalar{margin-top:10px;padding:7px 16px;font-size:14px;background:#fff;color:var(--ac);border-color:#fff;font-weight:600}
 #instalar[hidden]{display:none}
 @media print{#instalar{display:none!important}}
@@ -122,7 +125,7 @@ nav button.on{color:var(--ac);font-weight:600;box-shadow:inset 0 3px 0 var(--ac)
 </head>
 <body>
 <div class="canto c1"></div><div class="canto c2"></div>
-<header><h1><img id="lg" class="lg" alt="" aria-hidden="true">Rodízio de Organistas</h1><button type="button" id="sair">↪ Sair</button><small>Gerador automático · funciona offline</small><div><button type="button" id="instalar" hidden>⬇ Instalar app</button></div></header>
+<header><h1><img id="lg" class="lg" alt="" aria-hidden="true">Rodízio de Organistas</h1><button type="button" id="sair">↪ Sair</button><small>Gerador automático · funciona offline</small><small class="by">By Ranna Azevedo</small><div><button type="button" id="instalar" hidden>⬇ Instalar app</button></div></header>
 <main>
 <section id="p-dados" class="p-in">
  <div class="card"><h2>Localidade e período</h2>
@@ -152,7 +155,8 @@ nav button.on{color:var(--ac);font-weight:600;box-shadow:inset 0 3px 0 var(--ac)
 <section id="p-rod" class="p-in" hidden></section>
 <section id="p-rel" class="p-in" hidden></section>
 </main>
-<div id="fim" hidden><img id="fimg" alt=""><h2>Até logo!</h2><p>Seus dados foram salvos neste aparelho.</p><p>Você já pode fechar o app.</p><button type="button" id="volta">Voltar ao rodízio</button></div>
+<div id="fim" hidden><img id="fimg" alt=""><h2>Até logo!</h2><p>Seus dados foram salvos neste aparelho.</p><p>Você já pode fechar o app.</p><p class="by" style="margin-top:8px">By Ranna Azevedo</p><button type="button" id="volta">Voltar ao rodízio</button></div>
+<footer class="by">By Ranna Azevedo</footer>
 <nav><button data-t="dados" class="on"><i>📝</i>Dados</button><button data-t="extras"><i>🌷</i>Extras</button><button data-t="rod"><i>🎹</i>Rodízio</button><button data-t="rel"><i>📄</i>Relatório</button></nav>
 <script>
 /*ENGINE*/
