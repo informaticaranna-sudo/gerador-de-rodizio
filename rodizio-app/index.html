@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3b3f8f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<title>Rodízio de Organistas</title>
+<style>
+:root{--bg:#f4f5fb;--card:#fff;--tx:#1d2033;--mu:#6a6f8a;--ac:#3b3f8f;--ac2:#e6e8fb;--bd:#dcdff0;--er:#b3261e;--wr:#fff3d6}
+@media (prefers-color-scheme:dark){:root{--bg:#14151f;--card:#1e2030;--tx:#e8e9f5;--mu:#9a9fba;--ac:#9ea4ff;--ac2:#2a2d4a;--bd:#2f3350;--er:#ff8a80;--wr:#3a3220}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:env(safe-area-inset-top) 0 calc(64px + env(safe-area-inset-bottom))}
+header{background:var(--ac);color:#fff;padding:14px 16px}
+@media (prefers-color-scheme:dark){header{background:#2a2d4a}}
+h1{font-size:18px;margin:0}header small{opacity:.8}
+main{max-width:980px;margin:0 auto;padding:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
+h2{font-size:15px;margin:0 0 8px;color:var(--ac)}
+label{display:block;font-size:13px;color:var(--mu);margin:8px 0 3px}
+input,textarea,select{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+textarea{min-height:110px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:8px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--bg);cursor:pointer;user-select:none}
+.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+@media (prefers-color-scheme:dark){.chip.on{color:#14151f}}
+.msg{padding:10px 12px;border-radius:8px;margin-bottom:10px;background:var(--wr);font-size:14px}
+.msg.er{color:var(--er)}
+button{font:inherit;padding:10px 14px;border-radius:10px;border:1px solid var(--ac);background:var(--ac);color:#fff;cursor:pointer}
+@media (prefers-color-scheme:dark){button{color:#14151f}}
+button.sec{background:transparent;color:var(--ac)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.meses{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.mes h3{margin:0 0 6px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.mes .n{font-size:12px;background:var(--ac2);color:var(--ac);border-radius:10px;padding:1px 8px}
+.mes table{width:100%;border-collapse:collapse;font-size:14px}
+.mes td{padding:3px 4px;border-top:1px solid var(--bd)}
+.mes td:first-child{width:52px;font-variant-numeric:tabular-nums;color:var(--mu)}
+.mes td.s{width:40px;color:var(--mu)}
+.mes tr.e td{font-style:italic;color:var(--mu)}
+.mes .meia{color:var(--mu);font-size:13px}
+.mes .bat{font-size:13px;margin-top:6px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;border-radius:0;background:transparent;color:var(--mu);padding:14px 4px}
+nav button.on{color:var(--ac);font-weight:600;box-shadow:inset 0 3px 0 var(--ac)}
+.pt{font-size:14px;margin:2px 0}.tb{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}.tb td{padding:3px 4px;border-top:1px solid var(--bd)}.tb td:last-child{text-align:right;color:var(--mu)}.sub{font-size:13px;color:var(--mu);text-align:center;margin-top:2px}
+@media print{header,nav,.bar,.noprint,.msg{display:none!important}body{background:#fff;color:#000;padding:0}.card{break-inside:avoid;border-color:#999}.meses{grid-template-columns:repeat(3,1fr)}main{max-width:none}}
+.pg,.pg thead,.pg tbody,.pg tfoot,.pg tr,.pg td{display:block}.sp{display:none}.ban{display:block;width:100%;max-width:560px;margin:0 auto 6px}.canto{display:none}
+@page{size:A4;margin:0}@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{padding:0!important}.canto{display:block;position:fixed;width:34mm;z-index:-1}.c1{top:0;left:0}.c2{bottom:0;right:0;transform:rotate(180deg)}.pg{display:table!important;width:calc(100% - 20mm);margin:0 10mm}.pg thead{display:table-header-group!important}.pg tbody{display:table-row-group!important}.pg tfoot{display:table-footer-group!important}.pg tr{display:table-row!important}.pg td{display:table-cell!important}.sp{display:block!important;height:22mm}.mes td{font-size:12px;padding:2px 3px}.mes td:first-child{width:30px}.mes td.s{width:32px}.mes b{white-space:nowrap}.mes h3{font-size:13px}.card{border-color:#e8a7bf!important}.mes h3{color:#b0396a}.mes .n{background:#fbe4ec;color:#b0396a}.mes td{border-color:#f3d3de}.ban{max-width:420px}}
+</style>
+</head>
+<body>
+<div class="canto c1"></div><div class="canto c2"></div>
+<header><h1>🎹 Rodízio de Organistas</h1><small>Gerador automático · funciona offline</small></header>
+<main>
+<section id="p-dados" class="p-in">
+ <div class="card"><h2>Localidade e período</h2>
+  <label>Localidade</label><input id="local" placeholder="Ex.: Central">
+  <div class="g2"><div><label>Ano</label><input id="ano" type="number" inputmode="numeric"></div>
+  <div><label>Mês de início</label><select id="mes"></select></div></div>
+  <label>Sequência anterior (nº do “próximo ano” do rodízio anterior; vazio = 1)</label><input id="seq" type="number" inputmode="numeric" min="1">
+ </div>
+ <div class="card"><h2>Organistas</h2>
+  <label>Um nome por linha, sem pular linhas (máx. 21)</label><textarea id="nomes"></textarea>
+  <div class="pt" id="qtd"></div></div>
+ <div class="card"><h2>Dias de culto (máx. 4 por semana)</h2><div class="chips" id="dias"></div>
+  <label style="margin-top:12px"><input type="checkbox" id="meia" style="width:auto"> Mostrar organista da meia-hora (antes do culto)</label></div>
+</section>
+<section id="p-extras" class="p-in" hidden></section>
+<section id="p-rod" class="p-in" hidden></section>
+<section id="p-rel" class="p-in" hidden></section>
+</main>
+<nav><button data-t="dados" class="on">Dados</button><button data-t="extras">Extras</button><button data-t="rod">Rodízio</button><button data-t="rel">Relatório</button></nav>
+<script>
+/*ENGINE*/
+const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DIAS=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+const pc=s=>s.toLowerCase().replace(/(^|\s)\S/g,c=>c.toUpperCase());
+function ciclo(nomes,k){const n=nomes.length,K=nomes.slice();
+ if(k>=2&&k<=4&&n%k===0)for(let r=1;r<k;r++)for(let g=0;g<n;g+=k)for(let i=0;i<k;i++)K.push(nomes[g+(i+r)%k]);
+ return K}
+function deslocamento(n,k,L){if(n===2)return k===2?2:1;const q=n/(k||1);if(Number.isInteger(q))return L/n;return L%2===0?L/2+1:k-1}
+function gerar(c){
+ const nomes=c.nomes.map(pc),n=nomes.length,k=c.dias.filter(Boolean).length;
+ const K=ciclo(nomes,k),L=K.length,sh=deslocamento(n,k,L);
+ const ini=Math.min(Math.max(+c.mes||1,1),12)-1;
+ let seq=+c.seq>=1&&+c.seq<=L?+c.seq:1,pos=0;
+ const meses=MESES.map(nome=>({nome,linhas:[],inicio:null}));
+ if(!n||!k)return{meses,proximo:null,L,K,k,n};
+ for(const d=new Date(c.ano,ini,1);d.getFullYear()===c.ano;d.setDate(d.getDate()+1)){
+  const m=d.getMonth(),dia=d.getDate(),M=meses[m],sem=DIAS[(d.getDay()+6)%7];
+  if(c.ensaios[m]>0&&dia===+c.ensaios[m])M.linhas.push({dia,sem,ens:true});
+  if(c.dias[(d.getDay()+6)%7]){
+   pos=pos===L?1:pos===0?seq:pos+1;
+   const j=sh+pos>L?sh+pos-L:sh+pos;
+   if(M.inicio===null)M.inicio=pos;
+   M.linhas.push({dia,sem,culto:K[pos-1],meia:K[j-1]});
+  }
+ }
+ meses.forEach(M=>{if(M.inicio===null&&M.linhas.length)M.inicio=pos||seq});
+ return{meses,proximo:pos?(pos===L?1:pos+1):null,L,K,k,n}}
+/*END*/
+const anoPadrao=()=>{const t=new Date(),f=new Date(t.getTime()+46*864e5);return f.getFullYear()===t.getFullYear()?t.getFullYear():t.getFullYear()+1};
+const PAD=()=>({local:'',ano:anoPadrao(),mes:1,seq:'',nomes:['Organista A','Organista B','Organista C'],dias:[0,0,0,1,0,1,1].map(Boolean),meia:false,ensaios:Array(12).fill(''),bat:Array(12).fill(''),ceias:'',fones:{},outros:''});
+let S=PAD(),DB=null,tm=0,sujo=false,R,relAno=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dd=n=>String(n).padStart(2,'0');
+/* ---- Banco de dados (IndexedDB): um registro por ano ---- */
+const abrir=()=>new Promise((ok,er)=>{const q=indexedDB.open('rodizio-db',1);q.onupgradeneeded=()=>{q.result.createObjectStore('anos',{keyPath:'ano'});q.result.createObjectStore('cfg')};q.onsuccess=()=>ok(q.result);q.onerror=()=>er(q.error)});
+const tx=(st,m,fn)=>DB?new Promise((ok,er)=>{const t=DB.transaction(st,m),r=fn(t.objectStore(st));t.oncomplete=()=>ok(r.result);t.onerror=()=>er(t.error)}):Promise.resolve(null);
+const calc=d=>{const k=d.dias.filter(Boolean).length;return k>=1&&k<=4&&d.nomes.length?gerar(d):null};
+async function grava(){clearTimeout(tm);if(!sujo)return;sujo=false;const g=calc(S);
+ try{await tx('anos','readwrite',s=>s.put({ano:S.ano,dados:JSON.parse(JSON.stringify(S)),rodizio:g&&{meses:g.meses,proximo:g.proximo,L:g.L},atualizado:Date.now()}));await tx('cfg','readwrite',s=>s.put(S.ano,'ultimo'))}catch(e){}}
+const save=()=>{sujo=true;clearTimeout(tm);tm=setTimeout(grava,300)};
+async function init(){
+ try{DB=await abrir()}catch(e){DB=null}
+ const ult=await tx('cfg','readonly',s=>s.get('ultimo')),rec=ult&&await tx('anos','readonly',s=>s.get(ult));
+ if(rec)S=Object.assign(PAD(),rec.dados);
+ else try{const o=JSON.parse(localStorage.getItem('rodizio')||'null');if(o){S=Object.assign(PAD(),o);save()}}catch(e){}
+ preencher();
+ if(!DB)$('main').insertAdjacentHTML('afterbegin','<div class="msg">Banco de dados indisponível neste navegador: os dados não serão guardados.</div>')}
+addEventListener('pagehide',grava);document.addEventListener('visibilitychange',()=>{if(document.hidden)grava()});
+/* ---- Dados ---- */
+$('#mes').innerHTML=MESES.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
+const qtd=()=>{$('#qtd').textContent=`${S.nomes.length} organista(s) · ${S.dias.filter(Boolean).length} culto(s) por semana`};
+function chips(){$('#dias').innerHTML=DIAS.map((d,i)=>`<span class="chip${S.dias[i]?' on':''}" data-i="${i}">${d}</span>`).join('');qtd()}
+function preencher(){$('#local').value=S.local;$('#ano').value=S.ano;$('#mes').value=S.mes;$('#seq').value=S.seq;$('#nomes').value=S.nomes.join('\n');$('#meia').checked=S.meia;chips()}
+$('#dias').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;S.dias[i]=!S.dias[i];save();chips()};
+$('#local').oninput=e=>{S.local=e.target.value;save()};
+$('#ano').onchange=async e=>{const v=+e.target.value;if(!(v>=2000&&v<=2100)){e.target.value=S.ano;return}if(v===S.ano)return;
+ await grava();const rec=await tx('anos','readonly',s=>s.get(v));
+ S=rec?Object.assign(PAD(),rec.dados):Object.assign(PAD(),S,{ano:v,seq:'',mes:1,bat:Array(12).fill(''),ceias:''});preencher();save()};
+$('#mes').onchange=e=>{S.mes=+e.target.value;save()};
+$('#seq').oninput=e=>{S.seq=e.target.value;save()};
+$('#meia').onchange=e=>{S.meia=e.target.checked;save()};
+$('#nomes').oninput=e=>{S.nomes=e.target.value.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,21);save();qtd()};
+/* ---- Extras ---- */
+function extras(){
+ $('#p-extras').innerHTML=`
+ <div class="card"><h2>Ensaios (somente o dia do mês)</h2><div class="g3">${MESES.map((m,i)=>`<div><label>${m}</label><input type="number" inputmode="numeric" min="1" max="31" data-k="ensaios" data-i="${i}" value="${esc(S.ensaios[i])}"></div>`).join('')}</div></div>
+ <div class="card"><h2>Batismos de ${S.ano} (organista do mês)</h2><datalist id="dl">${S.nomes.map(n=>`<option value="${esc(pc(n))}">`).join('')}</datalist><div class="g3">${MESES.map((m,i)=>`<div><label>${m}</label><input list="dl" data-k="bat" data-i="${i}" value="${esc(S.bat[i])}"></div>`).join('')}</div></div>
+ <div class="card"><h2>Santas ceias de ${S.ano}</h2><label>Organistas (uma por linha, ex.: Páscoa – Maria)</label><textarea data-k="ceias">${esc(S.ceias)}</textarea></div>
+ <div class="card"><h2>Telefones das organistas</h2>${S.nomes.map(n=>`<label>${esc(pc(n))}</label><input type="tel" data-f="${esc(n)}" value="${esc(S.fones[n]||'')}">`).join('')}
+ <label>Outros telefones (encarregado, cooperador…)</label><textarea data-k="outros">${esc(S.outros)}</textarea></div>`}
+$('#p-extras').oninput=e=>{const t=e.target;if(t.dataset.f!=null)S.fones[t.dataset.f]=t.value;else if(t.dataset.i!=null)S[t.dataset.k][t.dataset.i]=t.value;else S[t.dataset.k]=t.value;save()};
+/* ---- Blocos de exibição (usados no Rodízio e no Relatório) ---- */
+function cartoes(d,g,bat=true){return '<div class="meses">'+g.meses.map((M,i)=>!M.linhas.length?'':
+ `<div class="card mes"><h3>${M.nome}/${d.ano}<span class="n">início nº ${M.inicio}</span></h3><table>${d.meia?'<tr class="meia"><td></td><td class="s"></td><td>meia-hora · culto</td></tr>':''}`+
+ M.linhas.map(l=>l.ens?`<tr class="e"><td>${dd(l.dia)}</td><td class="s">${l.sem}</td><td>ENSAIO</td></tr>`:`<tr><td>${dd(l.dia)}</td><td class="s">${l.sem}</td><td>${d.meia?`<span class="meia">${esc(l.meia)}</span> · `:''}<b>${esc(l.culto)}</b></td></tr>`).join('')+
+ `</table>${bat&&d.bat[i]?`<div class="bat">Batismo: ${esc(pc(d.bat[i]))}</div>`:''}</div>`).join('')+'</div>'}
+function extrasHtml(d,bat){
+ const fo=d.nomes.filter(n=>d.fones[n]).map(n=>`<div class="pt">${esc(pc(n))}: ${esc(d.fones[n])}</div>`).join('');
+ const ba=MESES.map((m,i)=>d.bat[i]?`<tr><td>${m}</td><td>${esc(pc(d.bat[i]))}</td></tr>`:'').join('');
+ const ce=d.ceias.trim().split('\n').filter(x=>x.trim()).map(x=>`<div class="pt">${esc(x.trim())}</div>`).join('');
+ return (fo||d.outros?`<div class="card"><h2>Telefones</h2>${fo}${d.outros?`<div class="pt">${esc(d.outros).replace(/\n/g,'<br>')}</div>`:''}</div>`:'')+
+ (bat&&ba?`<div class="card"><h2>Batismos de ${d.ano}</h2><table class="tb">${ba}</table></div>`:'')+(ce?`<div class="card"><h2>Santas ceias de ${d.ano}</h2>${ce}</div>`:'')}
+function resumo(d,g){const c={};let tot=0,ens=0;
+ g.meses.forEach(M=>M.linhas.forEach(l=>{if(l.ens)ens++;else{tot++;c[l.culto]=(c[l.culto]||0)+1}}));
+ return `<div class="card"><h2>Resumo</h2><div class="pt">${d.nomes.length} organista(s) · ${d.dias.filter(Boolean).length} culto(s) por semana (${DIAS.filter((_,i)=>d.dias[i]).join(', ')})</div><div class="pt">${tot} cultos${ens?` · ${ens} ensaio${ens>1?'s':''}`:''}${g.proximo?` · próximo ano inicia na sequência nº ${g.proximo}`:''}</div><table class="tb">${Object.entries(c).map(([n,v])=>`<tr><td>${esc(n)}</td><td>${v} cultos no ano</td></tr>`).join('')}</table></div>`}
+function texto(d,g,full){
+ let t=`🌸 RODÍZIO DE ORGANISTAS${d.local?' - '+d.local:''} - ${d.ano}\n`;
+ g.meses.forEach(M=>{if(!M.linhas.length)return;t+=`\n${M.nome.toUpperCase()}/${d.ano}\n`;
+  M.linhas.forEach(l=>{t+=`${dd(l.dia)} ${l.sem}  `+(l.ens?'ENSAIO':(d.meia?l.meia+' / ':'')+l.culto)+'\n'})});
+ if(full){const fo=d.nomes.filter(n=>d.fones[n]).map(n=>`${pc(n)}: ${d.fones[n]}`);
+  if(fo.length||d.outros)t+=`\nTELEFONES\n${fo.join('\n')}${d.outros?'\n'+d.outros:''}\n`;
+  const ba=MESES.map((m,i)=>d.bat[i]?`${m}: ${pc(d.bat[i])}`:'').filter(Boolean);
+  if(ba.length)t+=`\nBATISMOS ${d.ano}\n${ba.join('\n')}\n`;
+  if(d.ceias.trim())t+=`\nSANTAS CEIAS ${d.ano}\n${d.ceias.trim()}\n`}
+ return t}
+async function compartilhar(t){try{if(navigator.share)await navigator.share({title:'Rodízio de organistas',text:t});else{await navigator.clipboard.writeText(t);alert('Texto copiado.')}}catch(e){}}
+const pag=h=>`<table class="pg"><thead><tr><td><div class="sp"></div></td></tr></thead><tbody><tr><td>${h}</td></tr></tbody><tfoot><tr><td><div class="sp"></div></td></tr></tfoot></table>`;
+/* ---- Rodízio ---- */
+function avisos(){
+ const a=[],n=S.nomes.length,k=S.dias.filter(Boolean).length;
+ if(!n)a.push('Informe ao menos uma organista.');
+ if(!k)a.push('Marque ao menos um dia de culto.');
+ if(k>4)a.push('Excedeu o limite máximo de 4 cultos por semana.');
+ if(new Set(S.nomes.map(x=>x.toLowerCase())).size<n)a.push('Há nomes repetidos.');
+ if(R&&S.seq!==''&&(+S.seq<1||+S.seq>R.L))a.push(`Sequência incorreta: use um número de 1 a ${R.L}.`);
+ if(R&&R.meses.some(m=>m.linhas.length>19))a.push('Mês com mais de 19 linhas. Remova o ensaio desse mês para caber na impressão.');
+ return a}
+const titulo=(d,sub)=>`<div class="card" style="text-align:center">${BAN}<b>${esc(d.local)||'Rodízio de organistas'}</b> · ${d.ano}${sub||''}</div>`;
+function rodizio(){
+ R=calc(S);const p=$('#p-rod');
+ let h=avisos().map(x=>`<div class="msg er">${esc(x)}</div>`).join('');
+ if(!R){p.innerHTML=h;return}
+ h+=`<div class="bar"><button id="b-prt">Imprimir / Baixar PDF</button><button class="sec" id="b-shr">Compartilhar texto</button><button class="sec" id="b-nxt">Próximo ano</button></div>`+
+  titulo(S,S.meia?' · com meia-hora':'')+cartoes(S,R)+extrasHtml(S,false)+`<div class="card"><div class="pt">Próximo ano começa na sequência nº <b>${R.proximo??'—'}</b> (o botão “Próximo ano” preenche sozinho).</div></div>`;
+ p.innerHTML=pag(h);
+ $('#b-prt').onclick=()=>window.print();
+ $('#b-shr').onclick=()=>compartilhar(texto(S,R,true));
+ $('#b-nxt').onclick=async()=>{if(R.proximo&&confirm(`Preparar ${S.ano+1}, continuando a sequência (início nº ${R.proximo})?`)){await grava();
+  S=Object.assign(PAD(),S,{ano:S.ano+1,mes:1,seq:R.proximo,bat:Array(12).fill(''),ceias:''});preencher();save();rodizio()}}}
+/* ---- Relatório (lê do banco de dados) ---- */
+async function relatorio(){
+ await grava();const p=$('#p-rel');
+ const recs=((await tx('anos','readonly',s=>s.getAll()))||[]).sort((a,b)=>b.ano-a.ano);
+ if(!recs.length){p.innerHTML='<div class="msg">Nenhum rodízio guardado ainda. Preencha os Dados e gere o rodízio.</div>';return}
+ if(!recs.some(r=>r.ano===relAno))relAno=recs.some(r=>r.ano===S.ano)?S.ano:recs[0].ano;
+ const rec=recs.find(r=>r.ano===relAno),d=rec.dados,g=rec.rodizio;
+ let h=`<div class="bar"><select id="sel" style="width:auto">${recs.map(r=>`<option${r.ano===relAno?' selected':''}>${r.ano}</option>`).join('')}</select><button id="r-prt">Imprimir / Baixar PDF</button>${g?'<button class="sec" id="r-shr">Compartilhar texto</button>':''}<button class="sec" id="r-del">Excluir ano</button></div>`;
+ if(!g)h+='<div class="msg">Este ano ficou sem rodízio (faltam organistas ou dias de culto).</div>';
+ else h+=`<div class="card" style="text-align:center">${BAN}<b>Relatório do rodízio de organistas</b><div>${esc(d.local)} · ${d.ano}</div><div class="sub">Atualizado em ${new Date(rec.atualizado).toLocaleDateString('pt-BR')}</div></div>`+resumo(d,g)+'<h2 style="margin:6px 2px">Rodízio completo do ano</h2>'+cartoes(d,g,false)+extrasHtml(d,true);
+ p.innerHTML=pag(h);
+ $('#sel').onchange=e=>{relAno=+e.target.value;relatorio()};
+ $('#r-prt').onclick=()=>window.print();
+ if(g)$('#r-shr').onclick=()=>compartilhar(texto(d,g,true));
+ $('#r-del').onclick=async()=>{if(!confirm(`Excluir definitivamente o rodízio de ${relAno} do banco de dados?`))return;
+  await tx('anos','readwrite',s=>s.delete(relAno));
+  if(relAno===S.ano){sujo=false;clearTimeout(tm);S=PAD();preencher()}
+  const ult=await tx('cfg','readonly',s=>s.get('ultimo'));if(ult===relAno)await tx('cfg','readwrite',s=>s.delete('ultimo'));relAno=null;relatorio()}}
+/* ---- Enfeite floral ---- */
+const flor=(x,y,k,c)=>`<g fill="${c}">${[0,72,144,216,288].map(r=>`<ellipse cx="${x}" cy="${+(y-9*k).toFixed(2)}" rx="${+(6.5*k).toFixed(2)}" ry="${+(9*k).toFixed(2)}" transform="rotate(${r} ${x} ${y})"/>`).join('')}</g><circle cx="${x}" cy="${y}" r="${+(4.2*k).toFixed(2)}" fill="#f7d774"/>`;
+const RAMO=`<path d="M0 62C50 66 95 40 175 44" fill="none" stroke="#7aa88a" stroke-width="2.4" stroke-linecap="round"/><g fill="#8fbf9f"><ellipse cx="28" cy="52" rx="13" ry="5" transform="rotate(-35 28 52)"/><ellipse cx="45" cy="68" rx="13" ry="5" transform="rotate(30 45 68)"/><ellipse cx="82" cy="46" rx="13" ry="5" transform="rotate(-40 82 46)"/><ellipse cx="100" cy="60" rx="13" ry="5" transform="rotate(30 100 60)"/><ellipse cx="140" cy="38" rx="12" ry="4.5" transform="rotate(-35 140 38)"/><ellipse cx="150" cy="56" rx="12" ry="4.5" transform="rotate(35 150 56)"/></g>`+flor(62,48,1,'#f4a6c0')+flor(118,40,.75,'#c9b4ea')+flor(172,44,1.25,'#e9739b')+`<circle cx="14" cy="60" r="3" fill="#f4a6c0"/><circle cx="104" cy="74" r="2.5" fill="#c9b4ea"/><circle cx="156" cy="26" r="2.5" fill="#f4a6c0"/>`;
+const BAN=`<svg class="ban" viewBox="0 0 600 90" role="img" aria-label="Enfeite floral"><g transform="translate(6 4)">${RAMO}</g><g transform="translate(594 4) scale(-1 1)">${RAMO}</g><text x="300" y="58" text-anchor="middle" font-size="44" fill="#e9739b">♪</text><text x="262" y="40" text-anchor="middle" font-size="18" fill="#c9b4ea">♫</text><text x="338" y="40" text-anchor="middle" font-size="18" fill="#c9b4ea">✿</text></svg>`;
+document.querySelectorAll('.canto').forEach(e=>e.innerHTML=`<svg viewBox="0 0 200 90" width="100%">${RAMO}</svg>`);
+/* ---- Navegação ---- */
+function ir(t){document.querySelectorAll('.p-in').forEach(s=>s.hidden=s.id!=='p-'+t);
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+ if(t==='extras')extras();if(t==='rod')rodizio();if(t==='rel')relatorio();scrollTo(0,0)}
+document.querySelector('nav').onclick=e=>{if(e.target.dataset.t)ir(e.target.dataset.t)};
+init();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
