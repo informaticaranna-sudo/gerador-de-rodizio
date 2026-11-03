@@ -3,78 +3,139 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#3b3f8f">
+<meta name="theme-color" content="#c94a7e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <title>Rodízio de Organistas</title>
 <style>
-:root{--bg:#f4f5fb;--card:#fff;--tx:#1d2033;--mu:#6a6f8a;--ac:#3b3f8f;--ac2:#e6e8fb;--bd:#dcdff0;--er:#b3261e;--wr:#fff3d6}
-@media (prefers-color-scheme:dark){:root{--bg:#14151f;--card:#1e2030;--tx:#e8e9f5;--mu:#9a9fba;--ac:#9ea4ff;--ac2:#2a2d4a;--bd:#2f3350;--er:#ff8a80;--wr:#3a3220}}
+:root{--bg:#fff6f9;--card:#fff;--tx:#3a2236;--mu:#8a6b80;--ac:#b0396a;--ac2:#fbe4ec;--bd:#f1d5e0;--er:#b3261e;--wr:#fff0f4;--li:#7c5cb8;--li2:#efe8fb;--zb:#fffafc;--on:#fff;--h1:#c94a7e;--h2:#9a76d0;--sh:0 2px 12px rgba(176,57,106,.08)}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1220;--card:#2a1a2e;--tx:#f6e9f0;--mu:#c0a2b6;--ac:#f4a6c0;--ac2:#43263f;--bd:#4a3250;--er:#ff9aa0;--wr:#3a2338;--li:#c9b4ea;--li2:#352a4d;--zb:#311f36;--on:#1c1220;--h1:#7d2f57;--h2:#523a7c;--sh:none}}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:env(safe-area-inset-top) 0 calc(64px + env(safe-area-inset-bottom))}
-header{background:var(--ac);color:#fff;padding:14px 16px}
-@media (prefers-color-scheme:dark){header{background:#2a2d4a}}
-h1{font-size:18px;margin:0}header small{opacity:.8}
-main{max-width:980px;margin:0 auto;padding:12px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
-h2{font-size:15px;margin:0 0 8px;color:var(--ac)}
-label{display:block;font-size:13px;color:var(--mu);margin:8px 0 3px}
-input,textarea,select{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
-textarea{min-height:110px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+body{font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:env(safe-area-inset-top) 0 calc(70px + env(safe-area-inset-bottom))}
+header{position:relative;overflow:hidden;background:linear-gradient(115deg,var(--h1),var(--h2));color:#fff;padding:16px 18px 18px;border-radius:0 0 24px 24px}
+header>*{position:relative}
+h1{font:italic 600 23px/1.15 "Palatino Linotype","Book Antiqua",Georgia,serif;margin:0}
+header small{opacity:.9;font-size:13px}
+.hf{position:absolute;right:-4px;top:0;height:100%;width:auto;opacity:.5;pointer-events:none;z-index:0}
+header>h1,header>small{z-index:1}
+@media (max-width:520px){.hf{opacity:.3}}
+main{max-width:1040px;margin:0 auto;padding:14px 12px}
+#p-dados,#p-extras{max-width:760px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:var(--sh)}
+h2{font:italic 600 18px "Palatino Linotype","Book Antiqua",Georgia,serif;margin:0 0 8px;color:var(--ac)}
+h2::before{content:"✿ ";font-style:normal;font-size:15px;color:var(--li)}
+label{display:block;font-size:13px;color:var(--mu);margin:10px 0 4px}
+.op{font-size:12px;opacity:.85;margin-left:4px}
+input,textarea,select{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx)}
+input:focus,textarea:focus,select:focus,.chip:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+textarea{min-height:110px}textarea.peq{min-height:86px}
+.sep{height:1px;background:var(--bd);margin:14px 0 4px}
+.ck{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--tx);margin-top:14px}
+.ck input{width:19px;height:19px;padding:0;accent-color:var(--ac)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{padding:8px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--bg);cursor:pointer;user-select:none}
-.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-@media (prefers-color-scheme:dark){.chip.on{color:#14151f}}
-.msg{padding:10px 12px;border-radius:8px;margin-bottom:10px;background:var(--wr);font-size:14px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{padding:8px 14px;border:1px solid var(--bd);border-radius:20px;background:var(--bg);cursor:pointer;user-select:none}
+.chip.on{background:var(--ac);color:var(--on);border-color:var(--ac);font-weight:600}
+.msg{padding:10px 12px;border-radius:12px;margin-bottom:10px;background:var(--wr);font-size:14px;border:1px solid var(--bd)}
 .msg.er{color:var(--er)}
-button{font:inherit;padding:10px 14px;border-radius:10px;border:1px solid var(--ac);background:var(--ac);color:#fff;cursor:pointer}
-@media (prefers-color-scheme:dark){button{color:#14151f}}
+button{font:inherit;padding:10px 16px;border-radius:22px;border:1px solid var(--ac);background:var(--ac);color:var(--on);cursor:pointer}
 button.sec{background:transparent;color:var(--ac)}
-.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.meses{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-.mes h3{margin:0 0 6px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
-.mes .n{font-size:12px;background:var(--ac2);color:var(--ac);border-radius:10px;padding:1px 8px}
-.mes table{width:100%;border-collapse:collapse;font-size:14px}
-.mes td{padding:3px 4px;border-top:1px solid var(--bd)}
-.mes td:first-child{width:52px;font-variant-numeric:tabular-nums;color:var(--mu)}
-.mes td.s{width:40px;color:var(--mu)}
-.mes tr.e td{font-style:italic;color:var(--mu)}
-.mes .meia{color:var(--mu);font-size:13px}
-.mes .bat{font-size:13px;margin-top:6px}
-nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom)}
-nav button{flex:1;border:0;border-radius:0;background:transparent;color:var(--mu);padding:14px 4px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.meses{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;align-items:start}
+.meses.larga{grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.mes{padding:0;overflow:hidden;margin:0}
+.mes h3{margin:0;padding:10px 12px;background:linear-gradient(115deg,var(--h1),var(--h2));color:#fff;font:italic 600 17px "Palatino Linotype","Book Antiqua",Georgia,serif;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mes h3 small{font-size:13px;font-weight:400;opacity:.85}
+.mes .n{font:600 11px system-ui,sans-serif;font-style:normal;background:rgba(255,255,255,.24);color:#fff;border-radius:10px;padding:2px 9px;white-space:nowrap}
+.pl{width:100%;border-collapse:collapse;font-size:14px}
+.pl th{background:var(--ac2);color:var(--ac);font-size:12px;font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd)}
+.pl td{padding:5px 8px;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd);vertical-align:middle}
+.pl th:last-child,.pl td:last-child{border-right:0}
+.pl tbody tr:nth-child(even) td{background:var(--zb)}
+.pl tbody tr:last-child td{border-bottom:0}
+.pl th:first-child,.pl td:first-child{width:36px;text-align:center;font-variant-numeric:tabular-nums;color:var(--mu)}
+.pl th.s,.pl td.s{width:46px;color:var(--mu)}
+.pl th.nw{white-space:nowrap}
+.pl tr.dom td.s{color:var(--li);font-weight:600}
+.pl td.cu{font-weight:600}
+.pl tr.e td{background:var(--li2)!important;color:var(--li);font-style:italic;font-weight:600}
+.vz{color:var(--mu);opacity:.55}
+.mes .bat{font-size:13px;padding:7px 12px;color:var(--mu);border-top:1px solid var(--bd)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav button{flex:1;border:0;border-radius:0;background:transparent;color:var(--mu);padding:9px 4px 10px;font-size:13px;line-height:1.25}
+nav button i{display:block;font-style:normal;font-size:18px}
 nav button.on{color:var(--ac);font-weight:600;box-shadow:inset 0 3px 0 var(--ac)}
-.pt{font-size:14px;margin:2px 0}.tb{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}.tb td{padding:3px 4px;border-top:1px solid var(--bd)}.tb td:last-child{text-align:right;color:var(--mu)}.sub{font-size:13px;color:var(--mu);text-align:center;margin-top:2px}
-@media print{header,nav,.bar,.noprint,.msg{display:none!important}body{background:#fff;color:#000;padding:0}.card{break-inside:avoid;border-color:#999}.meses{grid-template-columns:repeat(3,1fr)}main{max-width:none}}
-.pg,.pg thead,.pg tbody,.pg tfoot,.pg tr,.pg td{display:block}.sp{display:none}.ban{display:block;width:100%;max-width:560px;margin:0 auto 6px}.canto{display:none}
-@page{size:A4;margin:0}@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{padding:0!important}.canto{display:block;position:fixed;width:34mm;z-index:-1}.c1{top:0;left:0}.c2{bottom:0;right:0;transform:rotate(180deg)}.pg{display:table!important;width:calc(100% - 20mm);margin:0 10mm}.pg thead{display:table-header-group!important}.pg tbody{display:table-row-group!important}.pg tfoot{display:table-footer-group!important}.pg tr{display:table-row!important}.pg td{display:table-cell!important}.sp{display:block!important;height:22mm}.mes td{font-size:12px;padding:2px 3px}.mes td:first-child{width:30px}.mes td.s{width:32px}.mes b{white-space:nowrap}.mes h3{font-size:13px}.card{border-color:#e8a7bf!important}.mes h3{color:#b0396a}.mes .n{background:#fbe4ec;color:#b0396a}.mes td{border-color:#f3d3de}.ban{max-width:420px}}
+.pt{font-size:14px;margin:3px 0}
+.tb{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+.tb th{background:var(--ac2);color:var(--ac);font-size:12px;font-weight:600;text-align:left;padding:6px 8px}
+.tb td{padding:5px 8px;border-top:1px solid var(--bd)}
+.tb td:last-child{text-align:right;color:var(--mu)}
+.tb.rs th,.tb.rs td{text-align:center}.tb.rs th:first-child,.tb.rs td:first-child{text-align:left}
+.tb.rs td:last-child{color:inherit}
+.sub{font-size:13px;color:var(--mu);text-align:center;margin-top:2px}
+.tit{font:italic 600 18px "Palatino Linotype","Book Antiqua",Georgia,serif;color:var(--ac)}
+.ban{display:block;width:100%;max-width:560px;margin:0 auto 6px}
+.canto{display:none}
+/* o .pg só existe para repetir o espaço do topo/rodapé ao imprimir; na tela é “transparente” */
+.pg,.pg>thead,.pg>tbody,.pg>tfoot,.pg>thead>tr,.pg>tbody>tr,.pg>tfoot>tr,.pg>thead>tr>td,.pg>tbody>tr>td,.pg>tfoot>tr>td{display:block}
+.sp{display:none}
+@page{size:A4;margin:0}
+@media print{
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ :root{--bg:#fff;--card:#fff;--tx:#000;--mu:#555;--ac:#b0396a;--ac2:#fbe4ec;--bd:#f3d3de;--li:#7c5cb8;--li2:#efe8fb;--zb:#fffafc;--sh:none}
+ header,nav,.bar,.noprint,.msg{display:none!important}
+ body{background:#fff;color:#000;padding:0!important}
+ main{max-width:none;padding:0}
+ .card{break-inside:avoid;border-color:#e8a7bf}
+ .meses{grid-template-columns:repeat(3,1fr);gap:8px}.meses.larga{grid-template-columns:repeat(2,1fr)}
+ .mes h3{background:var(--ac2);color:var(--ac);font-size:13px;padding:6px 8px}
+ .mes .n{background:#fff;color:var(--ac)}
+ .pl{font-size:11.5px}.pl td,.pl th{padding:2px 4px}
+ .pl th:first-child,.pl td:first-child{width:24px}.pl th.s,.pl td.s{width:32px}
+ .pl td.cu{white-space:nowrap}
+ .canto{display:block;position:fixed;width:34mm;z-index:-1}.c1{top:0;left:0}.c2{bottom:0;right:0;transform:rotate(180deg)}
+ .pg{display:table!important;width:calc(100% - 20mm);margin:0 10mm}
+ .pg>thead{display:table-header-group!important}.pg>tbody{display:table-row-group!important}.pg>tfoot{display:table-footer-group!important}
+ .pg>thead>tr,.pg>tbody>tr,.pg>tfoot>tr{display:table-row!important}
+ .pg>thead>tr>td,.pg>tbody>tr>td,.pg>tfoot>tr>td{display:table-cell!important}
+ .sp{display:block!important;height:22mm}
+ .ban{max-width:420px}
+}
 </style>
 </head>
 <body>
 <div class="canto c1"></div><div class="canto c2"></div>
-<header><h1>🎹 Rodízio de Organistas</h1><small>Gerador automático · funciona offline</small></header>
+<header><h1>🌸 Rodízio de Organistas</h1><small>Gerador automático · funciona offline</small></header>
 <main>
 <section id="p-dados" class="p-in">
  <div class="card"><h2>Localidade e período</h2>
-  <label>Localidade</label><input id="local" placeholder="Ex.: Central">
-  <div class="g2"><div><label>Ano</label><input id="ano" type="number" inputmode="numeric"></div>
-  <div><label>Mês de início</label><select id="mes"></select></div></div>
-  <label>Sequência anterior (nº do “próximo ano” do rodízio anterior; vazio = 1)</label><input id="seq" type="number" inputmode="numeric" min="1">
+  <label for="local">Localidade</label><input id="local" placeholder="Ex.: Central">
+  <div class="g2"><div><label for="ano">Ano</label><input id="ano" type="number" inputmode="numeric"></div>
+  <div><label for="mes">Mês de início</label><select id="mes"></select></div></div>
+  <label for="seq">Sequência anterior (nº do “próximo ano” do rodízio anterior; vazio = 1)</label><input id="seq" type="number" inputmode="numeric" min="1">
  </div>
  <div class="card"><h2>Organistas</h2>
-  <label>Um nome por linha, sem pular linhas (máx. 21)</label><textarea id="nomes"></textarea>
-  <div class="pt" id="qtd"></div></div>
+  <label for="nomes">Culto oficial <span class="op">um nome por linha, sem pular linhas (máx. 21)</span></label><textarea id="nomes"></textarea>
+  <div class="pt" id="qtd"></div>
+  <div class="sep"></div>
+  <label for="nomesMeia">Somente meia-hora <span class="op">opcional · um nome por linha</span></label>
+  <textarea id="nomesMeia" class="peq" placeholder="Se ficar vazio, a meia-hora usa as organistas do culto oficial"></textarea>
+  <label for="nomesRJM">Reunião de jovens e menores <span class="op">opcional · um nome por linha</span></label>
+  <textarea id="nomesRJM" class="peq" placeholder="Se ficar vazio, usa as organistas do culto oficial"></textarea>
+ </div>
  <div class="card"><h2>Dias de culto (máx. 4 por semana)</h2><div class="chips" id="dias"></div>
-  <label style="margin-top:12px"><input type="checkbox" id="meia" style="width:auto"> Mostrar organista da meia-hora (antes do culto)</label></div>
+  <label class="ck"><input type="checkbox" id="meia"> Mostrar organista da meia-hora (antes do culto)</label>
+  <label class="ck"><input type="checkbox" id="rjm"> Incluir reunião de jovens e menores</label>
+  <div id="rjmbox" hidden><label>Dia(s) da reunião de jovens e menores</label><div class="chips" id="djm"></div></div>
+ </div>
 </section>
 <section id="p-extras" class="p-in" hidden></section>
 <section id="p-rod" class="p-in" hidden></section>
 <section id="p-rel" class="p-in" hidden></section>
 </main>
-<nav><button data-t="dados" class="on">Dados</button><button data-t="extras">Extras</button><button data-t="rod">Rodízio</button><button data-t="rel">Relatório</button></nav>
+<nav><button data-t="dados" class="on"><i>📝</i>Dados</button><button data-t="extras"><i>🌷</i>Extras</button><button data-t="rod"><i>🎹</i>Rodízio</button><button data-t="rel"><i>📄</i>Relatório</button></nav>
 <script>
 /*ENGINE*/
 const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -88,34 +149,47 @@ function gerar(c){
  const nomes=c.nomes.map(pc),n=nomes.length,k=c.dias.filter(Boolean).length;
  const K=ciclo(nomes,k),L=K.length,sh=deslocamento(n,k,L);
  const ini=Math.min(Math.max(+c.mes||1,1),12)-1;
+ /* meia-hora: lista própria (se houver); senão repete o ciclo do culto oficial */
+ const lm=(c.nomesMeia||[]).map(pc);
+ /* jovens e menores: lista própria (se houver); senão repete as organistas do culto oficial */
+ const pj=(c.nomesRJM||[]).length?c.nomesRJM.map(pc):nomes;
+ const rj=c.rjm&&c.rjmDias&&c.rjmDias.some(Boolean)?c.rjmDias:null;
  let seq=+c.seq>=1&&+c.seq<=L?+c.seq:1,pos=0;
+ let mc=lm.length?(+c.seqMeia||0)%lm.length:0,jc=pj.length?(+c.seqRJM||0)%pj.length:0;
  const meses=MESES.map(nome=>({nome,linhas:[],inicio:null}));
- if(!n||!k)return{meses,proximo:null,L,K,k,n};
+ if(!n||!k)return{meses,proximo:null,L,K,k,n,proxMeia:0,proxRJM:0};
  for(const d=new Date(c.ano,ini,1);d.getFullYear()===c.ano;d.setDate(d.getDate()+1)){
-  const m=d.getMonth(),dia=d.getDate(),M=meses[m],sem=DIAS[(d.getDay()+6)%7];
+  const m=d.getMonth(),dia=d.getDate(),w=(d.getDay()+6)%7,M=meses[m],sem=DIAS[w];
   if(c.ensaios[m]>0&&dia===+c.ensaios[m])M.linhas.push({dia,sem,ens:true});
-  if(c.dias[(d.getDay()+6)%7]){
+  const ct=c.dias[w],rd=rj&&rj[w];
+  if(!ct&&!rd)continue;
+  const ln={dia,sem};
+  if(ct){
    pos=pos===L?1:pos===0?seq:pos+1;
    const j=sh+pos>L?sh+pos-L:sh+pos;
    if(M.inicio===null)M.inicio=pos;
-   M.linhas.push({dia,sem,culto:K[pos-1],meia:K[j-1]});
+   ln.culto=K[pos-1];ln.meia=lm.length?lm[mc++%lm.length]:K[j-1];
   }
+  if(rd){let p=pj[jc++%pj.length];if(p===ln.culto&&pj.length>1)p=pj[jc++%pj.length];ln.rjm=p}
+  M.linhas.push(ln);
  }
  meses.forEach(M=>{if(M.inicio===null&&M.linhas.length)M.inicio=pos||seq});
- return{meses,proximo:pos?(pos===L?1:pos+1):null,L,K,k,n}}
+ return{meses,proximo:pos?(pos===L?1:pos+1):null,L,K,k,n,proxMeia:lm.length?mc%lm.length:0,proxRJM:jc%pj.length}}
 /*END*/
 const anoPadrao=()=>{const t=new Date(),f=new Date(t.getTime()+46*864e5);return f.getFullYear()===t.getFullYear()?t.getFullYear():t.getFullYear()+1};
-const PAD=()=>({local:'',ano:anoPadrao(),mes:1,seq:'',nomes:['Organista A','Organista B','Organista C'],dias:[0,0,0,1,0,1,1].map(Boolean),meia:false,ensaios:Array(12).fill(''),bat:Array(12).fill(''),ceias:'',fones:{},outros:''});
+const PAD=()=>({local:'',ano:anoPadrao(),mes:1,seq:'',nomes:['Organista A','Organista B','Organista C'],nomesMeia:[],nomesRJM:[],dias:[0,0,0,1,0,1,1].map(Boolean),meia:false,rjm:false,rjmDias:[0,0,0,0,0,0,1].map(Boolean),seqMeia:0,seqRJM:0,ensaios:Array(12).fill(''),bat:Array(12).fill(''),ceias:'',fones:{},outros:''});
 let S=PAD(),DB=null,tm=0,sujo=false,R,relAno=null;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const dd=n=>String(n).padStart(2,'0');
+const vz=x=>x?esc(x):'<span class="vz">–</span>';
+const todos=d=>{const v=new Set(),o=[];[...d.nomes,...(d.nomesMeia||[]),...(d.nomesRJM||[])].forEach(n=>{const k=n.toLowerCase();if(!v.has(k)){v.add(k);o.push(n)}});return o};
 /* ---- Banco de dados (IndexedDB): um registro por ano ---- */
 const abrir=()=>new Promise((ok,er)=>{const q=indexedDB.open('rodizio-db',1);q.onupgradeneeded=()=>{q.result.createObjectStore('anos',{keyPath:'ano'});q.result.createObjectStore('cfg')};q.onsuccess=()=>ok(q.result);q.onerror=()=>er(q.error)});
 const tx=(st,m,fn)=>DB?new Promise((ok,er)=>{const t=DB.transaction(st,m),r=fn(t.objectStore(st));t.oncomplete=()=>ok(r.result);t.onerror=()=>er(t.error)}):Promise.resolve(null);
 const calc=d=>{const k=d.dias.filter(Boolean).length;return k>=1&&k<=4&&d.nomes.length?gerar(d):null};
 async function grava(){clearTimeout(tm);if(!sujo)return;sujo=false;const g=calc(S);
- try{await tx('anos','readwrite',s=>s.put({ano:S.ano,dados:JSON.parse(JSON.stringify(S)),rodizio:g&&{meses:g.meses,proximo:g.proximo,L:g.L},atualizado:Date.now()}));await tx('cfg','readwrite',s=>s.put(S.ano,'ultimo'))}catch(e){}}
+ try{await tx('anos','readwrite',s=>s.put({ano:S.ano,dados:JSON.parse(JSON.stringify(S)),rodizio:g&&{meses:g.meses,proximo:g.proximo,L:g.L,proxMeia:g.proxMeia,proxRJM:g.proxRJM},atualizado:Date.now()}));await tx('cfg','readwrite',s=>s.put(S.ano,'ultimo'))}catch(e){}}
 const save=()=>{sujo=true;clearTimeout(tm);tm=setTimeout(grava,300)};
 async function init(){
  try{DB=await abrir()}catch(e){DB=null}
@@ -127,89 +201,123 @@ async function init(){
 addEventListener('pagehide',grava);document.addEventListener('visibilitychange',()=>{if(document.hidden)grava()});
 /* ---- Dados ---- */
 $('#mes').innerHTML=MESES.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
-const qtd=()=>{$('#qtd').textContent=`${S.nomes.length} organista(s) · ${S.dias.filter(Boolean).length} culto(s) por semana`};
-function chips(){$('#dias').innerHTML=DIAS.map((d,i)=>`<span class="chip${S.dias[i]?' on':''}" data-i="${i}">${d}</span>`).join('');qtd()}
-function preencher(){$('#local').value=S.local;$('#ano').value=S.ano;$('#mes').value=S.mes;$('#seq').value=S.seq;$('#nomes').value=S.nomes.join('\n');$('#meia').checked=S.meia;chips()}
+const qtd=()=>{let t=`${S.nomes.length} organista(s) · ${S.dias.filter(Boolean).length} culto(s) por semana`;
+ if(S.nomesMeia.length)t+=` · ${S.nomesMeia.length} só meia-hora`;if(S.nomesRJM.length)t+=` · ${S.nomesRJM.length} jovens e menores`;$('#qtd').textContent=t};
+const chipsHtml=(arr,sel)=>DIAS.map((d,i)=>`<span class="chip${arr[i]?' on':''}" data-i="${i}">${d}</span>`).join('');
+function chips(){$('#dias').innerHTML=chipsHtml(S.dias);$('#djm').innerHTML=chipsHtml(S.rjmDias);$('#rjmbox').hidden=!S.rjm;qtd()}
+function preencher(){$('#local').value=S.local;$('#ano').value=S.ano;$('#mes').value=S.mes;$('#seq').value=S.seq;
+ $('#nomes').value=S.nomes.join('\n');$('#nomesMeia').value=S.nomesMeia.join('\n');$('#nomesRJM').value=S.nomesRJM.join('\n');
+ $('#meia').checked=S.meia;$('#rjm').checked=S.rjm;chips()}
 $('#dias').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;S.dias[i]=!S.dias[i];save();chips()};
+$('#djm').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;S.rjmDias[i]=!S.rjmDias[i];save();chips()};
 $('#local').oninput=e=>{S.local=e.target.value;save()};
 $('#ano').onchange=async e=>{const v=+e.target.value;if(!(v>=2000&&v<=2100)){e.target.value=S.ano;return}if(v===S.ano)return;
  await grava();const rec=await tx('anos','readonly',s=>s.get(v));
- S=rec?Object.assign(PAD(),rec.dados):Object.assign(PAD(),S,{ano:v,seq:'',mes:1,bat:Array(12).fill(''),ceias:''});preencher();save()};
+ S=rec?Object.assign(PAD(),rec.dados):Object.assign(PAD(),S,{ano:v,seq:'',seqMeia:0,seqRJM:0,mes:1,bat:Array(12).fill(''),ceias:''});preencher();save()};
 $('#mes').onchange=e=>{S.mes=+e.target.value;save()};
 $('#seq').oninput=e=>{S.seq=e.target.value;save()};
 $('#meia').onchange=e=>{S.meia=e.target.checked;save()};
-$('#nomes').oninput=e=>{S.nomes=e.target.value.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,21);save();qtd()};
+$('#rjm').onchange=e=>{S.rjm=e.target.checked;$('#rjmbox').hidden=!S.rjm;save()};
+const lista=v=>v.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,21);
+$('#nomes').oninput=e=>{S.nomes=lista(e.target.value);save();qtd()};
+$('#nomesMeia').oninput=e=>{const v=lista(e.target.value);
+ if(v.length&&!S.nomesMeia.length&&!S.meia){S.meia=true;$('#meia').checked=true}
+ S.nomesMeia=v;save();qtd()};
+$('#nomesRJM').oninput=e=>{const v=lista(e.target.value);
+ if(v.length&&!S.nomesRJM.length&&!S.rjm){S.rjm=true;$('#rjm').checked=true;$('#rjmbox').hidden=false}
+ S.nomesRJM=v;save();qtd()};
 /* ---- Extras ---- */
 function extras(){
+ const T=todos(S);
  $('#p-extras').innerHTML=`
  <div class="card"><h2>Ensaios (somente o dia do mês)</h2><div class="g3">${MESES.map((m,i)=>`<div><label>${m}</label><input type="number" inputmode="numeric" min="1" max="31" data-k="ensaios" data-i="${i}" value="${esc(S.ensaios[i])}"></div>`).join('')}</div></div>
- <div class="card"><h2>Batismos de ${S.ano} (organista do mês)</h2><datalist id="dl">${S.nomes.map(n=>`<option value="${esc(pc(n))}">`).join('')}</datalist><div class="g3">${MESES.map((m,i)=>`<div><label>${m}</label><input list="dl" data-k="bat" data-i="${i}" value="${esc(S.bat[i])}"></div>`).join('')}</div></div>
+ <div class="card"><h2>Batismos de ${S.ano} (organista do mês)</h2><datalist id="dl">${T.map(n=>`<option value="${esc(pc(n))}">`).join('')}</datalist><div class="g3">${MESES.map((m,i)=>`<div><label>${m}</label><input list="dl" data-k="bat" data-i="${i}" value="${esc(S.bat[i])}"></div>`).join('')}</div></div>
  <div class="card"><h2>Santas ceias de ${S.ano}</h2><label>Organistas (uma por linha, ex.: Páscoa – Maria)</label><textarea data-k="ceias">${esc(S.ceias)}</textarea></div>
- <div class="card"><h2>Telefones das organistas</h2>${S.nomes.map(n=>`<label>${esc(pc(n))}</label><input type="tel" data-f="${esc(n)}" value="${esc(S.fones[n]||'')}">`).join('')}
+ <div class="card"><h2>Telefones das organistas</h2>${T.map(n=>`<label>${esc(pc(n))}</label><input type="tel" data-f="${esc(n)}" value="${esc(S.fones[n]||'')}">`).join('')}
  <label>Outros telefones (encarregado, cooperador…)</label><textarea data-k="outros">${esc(S.outros)}</textarea></div>`}
 $('#p-extras').oninput=e=>{const t=e.target;if(t.dataset.f!=null)S.fones[t.dataset.f]=t.value;else if(t.dataset.i!=null)S[t.dataset.k][t.dataset.i]=t.value;else S[t.dataset.k]=t.value;save()};
 /* ---- Blocos de exibição (usados no Rodízio e no Relatório) ---- */
-function cartoes(d,g,bat=true){return '<div class="meses">'+g.meses.map((M,i)=>!M.linhas.length?'':
- `<div class="card mes"><h3>${M.nome}/${d.ano}<span class="n">início nº ${M.inicio}</span></h3><table>${d.meia?'<tr class="meia"><td></td><td class="s"></td><td>meia-hora · culto</td></tr>':''}`+
- M.linhas.map(l=>l.ens?`<tr class="e"><td>${dd(l.dia)}</td><td class="s">${l.sem}</td><td>ENSAIO</td></tr>`:`<tr><td>${dd(l.dia)}</td><td class="s">${l.sem}</td><td>${d.meia?`<span class="meia">${esc(l.meia)}</span> · `:''}<b>${esc(l.culto)}</b></td></tr>`).join('')+
- `</table>${bat&&d.bat[i]?`<div class="bat">Batismo: ${esc(pc(d.bat[i]))}</div>`:''}</div>`).join('')+'</div>'}
+function colunas(d,g){const meia=!!d.meia,rjm=!!d.rjm&&g.meses.some(M=>M.linhas.some(l=>l.rjm));return{meia,rjm,n:3+(meia?1:0)+(rjm?1:0)}}
+function cartoes(d,g,bat=true){const c=colunas(d,g);
+ return `<div class="meses${c.meia||c.rjm?' larga':''}">`+g.meses.map((M,i)=>!M.linhas.length?'':
+ `<div class="card mes"><h3><span>${M.nome}<small>/${d.ano}</small></span><span class="n">início nº ${M.inicio}</span></h3>
+ <table class="pl"><thead><tr><th>Dia</th><th class="s">Sem</th>${c.meia?'<th class="nw">Meia-hora</th>':''}<th>Culto</th>${c.rjm?'<th>Jovens e menores</th>':''}</tr></thead><tbody>`+
+ M.linhas.map(l=>l.ens?`<tr class="e"><td>${dd(l.dia)}</td><td class="s">${l.sem}</td><td colspan="${c.n-2}">Ensaio</td></tr>`:
+  `<tr${l.sem==='Dom'?' class="dom"':''}><td>${dd(l.dia)}</td><td class="s">${l.sem}</td>${c.meia?`<td>${vz(l.culto&&l.meia)}</td>`:''}<td class="cu">${vz(l.culto)}</td>${c.rjm?`<td>${vz(l.rjm)}</td>`:''}</tr>`).join('')+
+ `</tbody></table>${bat&&d.bat[i]?`<div class="bat">Batismo: ${esc(pc(d.bat[i]))}</div>`:''}</div>`).join('')+'</div>'}
 function extrasHtml(d,bat){
- const fo=d.nomes.filter(n=>d.fones[n]).map(n=>`<div class="pt">${esc(pc(n))}: ${esc(d.fones[n])}</div>`).join('');
+ const fo=todos(d).filter(n=>d.fones[n]).map(n=>`<div class="pt">${esc(pc(n))}: ${esc(d.fones[n])}</div>`).join('');
  const ba=MESES.map((m,i)=>d.bat[i]?`<tr><td>${m}</td><td>${esc(pc(d.bat[i]))}</td></tr>`:'').join('');
  const ce=d.ceias.trim().split('\n').filter(x=>x.trim()).map(x=>`<div class="pt">${esc(x.trim())}</div>`).join('');
  return (fo||d.outros?`<div class="card"><h2>Telefones</h2>${fo}${d.outros?`<div class="pt">${esc(d.outros).replace(/\n/g,'<br>')}</div>`:''}</div>`:'')+
  (bat&&ba?`<div class="card"><h2>Batismos de ${d.ano}</h2><table class="tb">${ba}</table></div>`:'')+(ce?`<div class="card"><h2>Santas ceias de ${d.ano}</h2>${ce}</div>`:'')}
-function resumo(d,g){const c={};let tot=0,ens=0;
- g.meses.forEach(M=>M.linhas.forEach(l=>{if(l.ens)ens++;else{tot++;c[l.culto]=(c[l.culto]||0)+1}}));
- return `<div class="card"><h2>Resumo</h2><div class="pt">${d.nomes.length} organista(s) · ${d.dias.filter(Boolean).length} culto(s) por semana (${DIAS.filter((_,i)=>d.dias[i]).join(', ')})</div><div class="pt">${tot} cultos${ens?` · ${ens} ensaio${ens>1?'s':''}`:''}${g.proximo?` · próximo ano inicia na sequência nº ${g.proximo}`:''}</div><table class="tb">${Object.entries(c).map(([n,v])=>`<tr><td>${esc(n)}</td><td>${v} cultos no ano</td></tr>`).join('')}</table></div>`}
-function texto(d,g,full){
+function resumo(d,g){const c={},cl=colunas(d,g);let tot=0,ens=0,tj=0;const get=n=>c[n]||(c[n]={c:0,m:0,j:0});
+ g.meses.forEach(M=>M.linhas.forEach(l=>{if(l.ens){ens++;return}
+  if(l.culto){tot++;get(l.culto).c++;if(cl.meia&&l.meia)get(l.meia).m++}
+  if(cl.rjm&&l.rjm){tj++;get(l.rjm).j++}}));
+ const nm=x=>x||'<span class="vz">–</span>';
+ return `<div class="card"><h2>Resumo</h2><div class="pt">${d.nomes.length} organista(s) · ${d.dias.filter(Boolean).length} culto(s) por semana (${DIAS.filter((_,i)=>d.dias[i]).join(', ')})</div><div class="pt">${tot} cultos${tj?` · ${tj} reuniões de jovens e menores`:''}${ens?` · ${ens} ensaio${ens>1?'s':''}`:''}${g.proximo?` · próximo ano inicia na sequência nº ${g.proximo}`:''}</div>
+ <table class="tb rs"><thead><tr><th>Organista</th><th>Cultos</th>${cl.meia?'<th>Meia-hora</th>':''}${cl.rjm?'<th>Jovens e menores</th>':''}</tr></thead><tbody>${Object.entries(c).map(([n,v])=>`<tr><td>${esc(n)}</td><td>${nm(v.c)}</td>${cl.meia?`<td>${nm(v.m)}</td>`:''}${cl.rjm?`<td>${nm(v.j)}</td>`:''}</tr>`).join('')}</tbody></table></div>`}
+function linhaTxt(l,c){if(l.ens)return'ENSAIO';if(!c.meia&&!c.rjm)return l.culto||'';
+ const p=[];if(c.meia&&l.culto)p.push('Meia-hora: '+l.meia);if(l.culto)p.push('Culto: '+l.culto);if(c.rjm&&l.rjm)p.push('Jovens e menores: '+l.rjm);return p.join(' | ')}
+function texto(d,g,full){const c=colunas(d,g);
  let t=`🌸 RODÍZIO DE ORGANISTAS${d.local?' - '+d.local:''} - ${d.ano}\n`;
  g.meses.forEach(M=>{if(!M.linhas.length)return;t+=`\n${M.nome.toUpperCase()}/${d.ano}\n`;
-  M.linhas.forEach(l=>{t+=`${dd(l.dia)} ${l.sem}  `+(l.ens?'ENSAIO':(d.meia?l.meia+' / ':'')+l.culto)+'\n'})});
- if(full){const fo=d.nomes.filter(n=>d.fones[n]).map(n=>`${pc(n)}: ${d.fones[n]}`);
+  M.linhas.forEach(l=>{t+=`${dd(l.dia)} ${l.sem}  ${linhaTxt(l,c)}\n`})});
+ if(full){const fo=todos(d).filter(n=>d.fones[n]).map(n=>`${pc(n)}: ${d.fones[n]}`);
   if(fo.length||d.outros)t+=`\nTELEFONES\n${fo.join('\n')}${d.outros?'\n'+d.outros:''}\n`;
   const ba=MESES.map((m,i)=>d.bat[i]?`${m}: ${pc(d.bat[i])}`:'').filter(Boolean);
   if(ba.length)t+=`\nBATISMOS ${d.ano}\n${ba.join('\n')}\n`;
   if(d.ceias.trim())t+=`\nSANTAS CEIAS ${d.ano}\n${d.ceias.trim()}\n`}
  return t}
+function csv(d,g){const c=colunas(d,g),q=x=>`"${String(x??'').replace(/"/g,'""')}"`;
+ const r=[['Mês','Dia','Dia da semana',...(c.meia?['Meia-hora']:[]),'Culto',...(c.rjm?['Jovens e menores']:[])]];
+ g.meses.forEach(M=>M.linhas.forEach(l=>r.push([M.nome,l.dia,l.sem,...(c.meia?[l.culto?l.meia:'']:[]),l.ens?'ENSAIO':(l.culto||''),...(c.rjm?[l.rjm||'']:[])])));
+ return '\ufeff'+r.map(x=>x.map(q).join(';')).join('\r\n')}
+function baixar(d,g){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv(d,g)],{type:'text/csv;charset=utf-8'}));a.download=`rodizio-${d.ano}.csv`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 async function compartilhar(t){try{if(navigator.share)await navigator.share({title:'Rodízio de organistas',text:t});else{await navigator.clipboard.writeText(t);alert('Texto copiado.')}}catch(e){}}
 const pag=h=>`<table class="pg"><thead><tr><td><div class="sp"></div></td></tr></thead><tbody><tr><td>${h}</td></tr></tbody><tfoot><tr><td><div class="sp"></div></td></tr></tfoot></table>`;
 /* ---- Rodízio ---- */
 function avisos(){
- const a=[],n=S.nomes.length,k=S.dias.filter(Boolean).length;
+ const a=[],n=S.nomes.length,k=S.dias.filter(Boolean).length,dup=l=>new Set(l.map(x=>x.toLowerCase())).size<l.length;
  if(!n)a.push('Informe ao menos uma organista.');
  if(!k)a.push('Marque ao menos um dia de culto.');
  if(k>4)a.push('Excedeu o limite máximo de 4 cultos por semana.');
- if(new Set(S.nomes.map(x=>x.toLowerCase())).size<n)a.push('Há nomes repetidos.');
+ if(dup(S.nomes))a.push('Há nomes repetidos no culto oficial.');
+ if(dup(S.nomesMeia))a.push('Há nomes repetidos na lista da meia-hora.');
+ if(dup(S.nomesRJM))a.push('Há nomes repetidos na lista de jovens e menores.');
+ if(S.rjm&&!S.rjmDias.some(Boolean))a.push('Marque o(s) dia(s) da reunião de jovens e menores.');
  if(R&&S.seq!==''&&(+S.seq<1||+S.seq>R.L))a.push(`Sequência incorreta: use um número de 1 a ${R.L}.`);
  if(R&&R.meses.some(m=>m.linhas.length>19))a.push('Mês com mais de 19 linhas. Remova o ensaio desse mês para caber na impressão.');
  return a}
-const titulo=(d,sub)=>`<div class="card" style="text-align:center">${BAN}<b>${esc(d.local)||'Rodízio de organistas'}</b> · ${d.ano}${sub||''}</div>`;
+const titulo=(d,sub)=>`<div class="card" style="text-align:center">${BAN}<span class="tit">${esc(d.local)||'Rodízio de organistas'}</span> · ${d.ano}${sub||''}</div>`;
 function rodizio(){
  R=calc(S);const p=$('#p-rod');
  let h=avisos().map(x=>`<div class="msg er">${esc(x)}</div>`).join('');
  if(!R){p.innerHTML=h;return}
- h+=`<div class="bar"><button id="b-prt">Imprimir / Baixar PDF</button><button class="sec" id="b-shr">Compartilhar texto</button><button class="sec" id="b-nxt">Próximo ano</button></div>`+
-  titulo(S,S.meia?' · com meia-hora':'')+cartoes(S,R)+extrasHtml(S,false)+`<div class="card"><div class="pt">Próximo ano começa na sequência nº <b>${R.proximo??'—'}</b> (o botão “Próximo ano” preenche sozinho).</div></div>`;
+ const c=colunas(S,R),sub=[c.meia?'com meia-hora':'',c.rjm?'com jovens e menores':''].filter(Boolean).join(' · ');
+ h+=`<div class="bar"><button id="b-prt">Imprimir / Baixar PDF</button><button class="sec" id="b-csv">Baixar planilha</button><button class="sec" id="b-shr">Compartilhar texto</button><button class="sec" id="b-nxt">Próximo ano</button></div>`+
+  titulo(S,sub?' · '+sub:'')+cartoes(S,R)+extrasHtml(S,false)+`<div class="card"><div class="pt">Próximo ano começa na sequência nº <b>${R.proximo??'—'}</b> (o botão “Próximo ano” preenche sozinho).</div></div>`;
  p.innerHTML=pag(h);
  $('#b-prt').onclick=()=>window.print();
+ $('#b-csv').onclick=()=>baixar(S,R);
  $('#b-shr').onclick=()=>compartilhar(texto(S,R,true));
  $('#b-nxt').onclick=async()=>{if(R.proximo&&confirm(`Preparar ${S.ano+1}, continuando a sequência (início nº ${R.proximo})?`)){await grava();
-  S=Object.assign(PAD(),S,{ano:S.ano+1,mes:1,seq:R.proximo,bat:Array(12).fill(''),ceias:''});preencher();save();rodizio()}}}
+  S=Object.assign(PAD(),S,{ano:S.ano+1,mes:1,seq:R.proximo,seqMeia:R.proxMeia||0,seqRJM:R.proxRJM||0,bat:Array(12).fill(''),ceias:''});preencher();save();rodizio()}}}
 /* ---- Relatório (lê do banco de dados) ---- */
 async function relatorio(){
  await grava();const p=$('#p-rel');
  const recs=((await tx('anos','readonly',s=>s.getAll()))||[]).sort((a,b)=>b.ano-a.ano);
  if(!recs.length){p.innerHTML='<div class="msg">Nenhum rodízio guardado ainda. Preencha os Dados e gere o rodízio.</div>';return}
  if(!recs.some(r=>r.ano===relAno))relAno=recs.some(r=>r.ano===S.ano)?S.ano:recs[0].ano;
- const rec=recs.find(r=>r.ano===relAno),d=rec.dados,g=rec.rodizio;
- let h=`<div class="bar"><select id="sel" style="width:auto">${recs.map(r=>`<option${r.ano===relAno?' selected':''}>${r.ano}</option>`).join('')}</select><button id="r-prt">Imprimir / Baixar PDF</button>${g?'<button class="sec" id="r-shr">Compartilhar texto</button>':''}<button class="sec" id="r-del">Excluir ano</button></div>`;
+ const rec=recs.find(r=>r.ano===relAno),d=Object.assign(PAD(),rec.dados),g=rec.rodizio;
+ let h=`<div class="bar"><select id="sel" style="width:auto">${recs.map(r=>`<option${r.ano===relAno?' selected':''}>${r.ano}</option>`).join('')}</select><button id="r-prt">Imprimir / Baixar PDF</button>${g?'<button class="sec" id="r-csv">Baixar planilha</button><button class="sec" id="r-shr">Compartilhar texto</button>':''}<button class="sec" id="r-del">Excluir ano</button></div>`;
  if(!g)h+='<div class="msg">Este ano ficou sem rodízio (faltam organistas ou dias de culto).</div>';
- else h+=`<div class="card" style="text-align:center">${BAN}<b>Relatório do rodízio de organistas</b><div>${esc(d.local)} · ${d.ano}</div><div class="sub">Atualizado em ${new Date(rec.atualizado).toLocaleDateString('pt-BR')}</div></div>`+resumo(d,g)+'<h2 style="margin:6px 2px">Rodízio completo do ano</h2>'+cartoes(d,g,false)+extrasHtml(d,true);
+ else h+=`<div class="card" style="text-align:center">${BAN}<span class="tit">Relatório do rodízio de organistas</span><div>${esc(d.local)} · ${d.ano}</div><div class="sub">Atualizado em ${new Date(rec.atualizado).toLocaleDateString('pt-BR')}</div></div>`+resumo(d,g)+'<h2 style="margin:6px 2px 10px">Rodízio completo do ano</h2>'+cartoes(d,g,false)+extrasHtml(d,true);
  p.innerHTML=pag(h);
  $('#sel').onchange=e=>{relAno=+e.target.value;relatorio()};
  $('#r-prt').onclick=()=>window.print();
- if(g)$('#r-shr').onclick=()=>compartilhar(texto(d,g,true));
+ if(g){$('#r-csv').onclick=()=>baixar(d,g);$('#r-shr').onclick=()=>compartilhar(texto(d,g,true))}
  $('#r-del').onclick=async()=>{if(!confirm(`Excluir definitivamente o rodízio de ${relAno} do banco de dados?`))return;
   await tx('anos','readwrite',s=>s.delete(relAno));
   if(relAno===S.ano){sujo=false;clearTimeout(tm);S=PAD();preencher()}
@@ -219,11 +327,12 @@ const flor=(x,y,k,c)=>`<g fill="${c}">${[0,72,144,216,288].map(r=>`<ellipse cx="
 const RAMO=`<path d="M0 62C50 66 95 40 175 44" fill="none" stroke="#7aa88a" stroke-width="2.4" stroke-linecap="round"/><g fill="#8fbf9f"><ellipse cx="28" cy="52" rx="13" ry="5" transform="rotate(-35 28 52)"/><ellipse cx="45" cy="68" rx="13" ry="5" transform="rotate(30 45 68)"/><ellipse cx="82" cy="46" rx="13" ry="5" transform="rotate(-40 82 46)"/><ellipse cx="100" cy="60" rx="13" ry="5" transform="rotate(30 100 60)"/><ellipse cx="140" cy="38" rx="12" ry="4.5" transform="rotate(-35 140 38)"/><ellipse cx="150" cy="56" rx="12" ry="4.5" transform="rotate(35 150 56)"/></g>`+flor(62,48,1,'#f4a6c0')+flor(118,40,.75,'#c9b4ea')+flor(172,44,1.25,'#e9739b')+`<circle cx="14" cy="60" r="3" fill="#f4a6c0"/><circle cx="104" cy="74" r="2.5" fill="#c9b4ea"/><circle cx="156" cy="26" r="2.5" fill="#f4a6c0"/>`;
 const BAN=`<svg class="ban" viewBox="0 0 600 90" role="img" aria-label="Enfeite floral"><g transform="translate(6 4)">${RAMO}</g><g transform="translate(594 4) scale(-1 1)">${RAMO}</g><text x="300" y="58" text-anchor="middle" font-size="44" fill="#e9739b">♪</text><text x="262" y="40" text-anchor="middle" font-size="18" fill="#c9b4ea">♫</text><text x="338" y="40" text-anchor="middle" font-size="18" fill="#c9b4ea">✿</text></svg>`;
 document.querySelectorAll('.canto').forEach(e=>e.innerHTML=`<svg viewBox="0 0 200 90" width="100%">${RAMO}</svg>`);
+$('header').insertAdjacentHTML('beforeend',`<svg class="hf" viewBox="0 0 200 90" aria-hidden="true">${RAMO}</svg>`);
 /* ---- Navegação ---- */
 function ir(t){document.querySelectorAll('.p-in').forEach(s=>s.hidden=s.id!=='p-'+t);
  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
  if(t==='extras')extras();if(t==='rod')rodizio();if(t==='rel')relatorio();scrollTo(0,0)}
-document.querySelector('nav').onclick=e=>{if(e.target.dataset.t)ir(e.target.dataset.t)};
+document.querySelector('nav').onclick=e=>{const b=e.target.closest('button');if(b&&b.dataset.t)ir(b.dataset.t)};
 init();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
